@@ -25,6 +25,9 @@ const theme = {
 		gray700: "#525252",
 		gray500: "#868686",
 		gray300: "#E9E9E9",
+		gray200: "#FCFCFC",
+		gray100: "#F6F6F6",
+		white500: "#FFFFFF",
 	},
 };
 
