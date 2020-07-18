@@ -3,6 +3,7 @@ import { theme } from "../../theme";
 
 const styles = StyleSheet.create({
 	contentCard: {
+		height: 290,
 		backgroundColor: theme.colors.white500,
 		padding: 36,
 		borderRadius: 12,

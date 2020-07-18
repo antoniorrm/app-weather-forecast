@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
+import { Platform } from "react-native";
 
 const styles = StyleSheet.create({
 	container: {
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 
 	searchBtn: {
 		height: 64,
-		paddingTop: 22,
+		paddingTop: Platform.OS === "ios" ? 22 : 0,
 		textAlign: "center",
 		textAlignVertical: "center",
 		borderRadius: 12,

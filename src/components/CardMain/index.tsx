@@ -3,25 +3,36 @@ import { View, Text, Image } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import styles from "./styles";
 import { theme } from "../../theme";
+import { Data } from "../../pages/Home";
 
-const CardMain = () => {
+import moment from "moment";
+import "moment/locale/pt-br";
+moment.locale("pt-br");
+interface Props {
+	data: Data;
+}
+console.log(new Date().getMonth().toString());
+const CardMain = (props: Props) => {
+	const { data } = props;
 	return (
 		<View style={styles.contentCard}>
 			<View style={styles.inline}>
 				<Icon name="map-pin" size={32} color={theme.colors.orange500} />
 				<View style={{ marginLeft: 16 }}>
-					<Text style={styles.nameCity}>Canindé, CE</Text>
-					<Text style={styles.data}>Sábado, 09 de Maio</Text>
+					<Text style={styles.nameCity}>
+						{data.city}, {data.uf}
+					</Text>
+					<Text style={styles.data}>{moment().format("dddd, D [de] MMMM")}</Text>
 				</View>
 			</View>
 
 			<View style={[styles.inline, { justifyContent: "space-between" }]}>
-				<Text style={styles.tem}>-37°</Text>
-				{/* <Image
+				<Text style={styles.tem}>{data.temp}°</Text>
+				<Image
 					style={{ width: 98, height: 100 }}
 					source={require("../../../assets/cloudy.png")}
 					resizeMode="contain"
-				/> */}
+				/>
 			</View>
 
 			<View style={styles.inline}>

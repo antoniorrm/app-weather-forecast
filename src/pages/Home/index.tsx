@@ -1,12 +1,79 @@
-import React, { useState } from "react";
-import { View, Text, StatusBar, StyleSheet, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StatusBar, TextInput, Alert } from "react-native";
 import { theme } from "../../theme";
 import { Feather as Icon } from "@expo/vector-icons";
 import CardMain from "../../components/CardMain";
 import styles from "./styles";
+import * as Location from "expo-location";
+import api from "../../service/api";
+import CardMainStatus from "../../components/CardMainStatus";
+
+export interface Data {
+	city: String;
+	uf: String;
+	temp: number;
+	temp_min: number;
+	temp_max: number;
+}
 
 const Home = () => {
-	const [nameCity, setNameCity] = useState("");
+	const [nameCity, setNameCity] = useState<string>("");
+	const [data, setData] = useState<Data>({} as Data);
+	const [error, setError] = useState<Boolean>(false);
+
+	useEffect(() => {
+		const loadPosition = async () => {
+			const { status } = await Location.requestPermissionsAsync();
+
+			if (status !== "granted") {
+				setData({} as Data);
+				// Alert.alert(
+				// 	"Oooooops...",
+				// 	"Precisammos de sua permissão pra obter a localização"
+				// );
+				return;
+			}
+			const location = await Location.getCurrentPositionAsync();
+
+			const { latitude, longitude } = location.coords;
+			await api
+				.get(
+					`?appid=c02f8825e0518a20f9e3e27a69ca5263&units=metric&lat=${latitude}&lon=${longitude}`
+				)
+				.then((res) => {
+					return setData({
+						city: res.data.name,
+						uf: res.data.sys.country,
+						temp: res.data.main.temp,
+						temp_min: res.data.main.temp_min,
+						temp_max: res.data.main.temp_max,
+					});
+				});
+		};
+		if (nameCity === "") {
+			setError(false);
+			loadPosition();
+		}
+	}, [nameCity]);
+
+	async function handleCity() {
+		await api
+			.get(`?appid=c02f8825e0518a20f9e3e27a69ca5263&units=metric&q=${nameCity}`)
+			.then((res) => {
+				setError(false);
+				setData({
+					city: res.data.name,
+					uf: res.data.sys.country,
+					temp: res.data.main.temp,
+					temp_min: res.data.main.temp_min,
+					temp_max: res.data.main.temp_max,
+				});
+			})
+			.catch(() => {
+				setError(true);
+				setData({} as Data);
+			});
+	}
 
 	return (
 		<View style={styles.container}>
@@ -51,13 +118,19 @@ const Home = () => {
 							name="navigation"
 							size={22}
 							color={theme.colors.white500}
+							onPress={() => handleCity()}
 						/>
 					</View>
 				</View>
 			</View>
 
 			<View style={[styles.body, { marginTop: -132 }]}>
-				<CardMain />
+				{data.uf?.length > 0 ? (
+					<CardMain data={data} />
+				) : (
+					<CardMainStatus error={error} />
+				)}
+				<Text>Informações Adicionais</Text>
 			</View>
 		</View>
 	);
