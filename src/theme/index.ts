@@ -1,6 +1,6 @@
 const theme = {
 	fontSize: {
-		big: 96,
+		big: 64,
 		h1: 28,
 		h2: 24,
 		h3: 16,
@@ -17,8 +17,7 @@ const theme = {
 	},
 
 	colors: {
-		orange500: "#E77E38",
-		red500: "#F5442F",
+		orange500: "#FF7F51",
 		black600: "#141414",
 		black500: "#1D1D1D",
 		black400: "#292929",
