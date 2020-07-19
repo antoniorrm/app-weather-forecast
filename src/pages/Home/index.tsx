@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StatusBar, TextInput, Alert } from "react-native";
+import {
+	View,
+	Text,
+	StatusBar,
+	TextInput,
+	TouchableOpacity,
+	ActivityIndicator,
+} from "react-native";
 import { theme } from "../../theme";
 import { Feather as Icon } from "@expo/vector-icons";
 import CardMain from "../../components/CardMain";
@@ -20,17 +27,16 @@ const Home = () => {
 	const [nameCity, setNameCity] = useState<string>("");
 	const [data, setData] = useState<Data>({} as Data);
 	const [error, setError] = useState<Boolean>(false);
+	const [loading, setLoading] = useState<Boolean>(false);
 
 	useEffect(() => {
 		const loadPosition = async () => {
+			setLoading(true);
 			const { status } = await Location.requestPermissionsAsync();
 
 			if (status !== "granted") {
 				setData({} as Data);
-				// Alert.alert(
-				// 	"Oooooops...",
-				// 	"Precisammos de sua permissão pra obter a localização"
-				// );
+
 				return;
 			}
 			const location = await Location.getCurrentPositionAsync();
@@ -41,13 +47,14 @@ const Home = () => {
 					`?appid=c02f8825e0518a20f9e3e27a69ca5263&units=metric&lat=${latitude}&lon=${longitude}`
 				)
 				.then((res) => {
-					return setData({
+					setData({
 						city: res.data.name,
 						uf: res.data.sys.country,
 						temp: res.data.main.temp,
 						temp_min: res.data.main.temp_min,
 						temp_max: res.data.main.temp_max,
 					});
+					return setLoading(false);
 				});
 		};
 		if (nameCity === "") {
@@ -57,6 +64,7 @@ const Home = () => {
 	}, [nameCity]);
 
 	async function handleCity() {
+		setLoading(true);
 		await api
 			.get(`?appid=c02f8825e0518a20f9e3e27a69ca5263&units=metric&q=${nameCity}`)
 			.then((res) => {
@@ -68,8 +76,10 @@ const Home = () => {
 					temp_min: res.data.main.temp_min,
 					temp_max: res.data.main.temp_max,
 				});
+				setLoading(false);
 			})
 			.catch(() => {
+				setLoading(false);
 				setError(true);
 				setData({} as Data);
 			});
@@ -113,13 +123,17 @@ const Home = () => {
 					</View>
 
 					<View style={{ marginLeft: "4%", width: "18%" }}>
-						<Icon
-							style={styles.searchBtn}
-							name="navigation"
-							size={22}
-							color={theme.colors.white500}
+						<TouchableOpacity
+							activeOpacity={0.8}
 							onPress={() => handleCity()}
-						/>
+							style={styles.searchBtn}
+						>
+							{loading ? (
+								<ActivityIndicator size="small" color={theme.colors.white500} />
+							) : (
+								<Icon name="navigation" size={22} color={theme.colors.white500} />
+							)}
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>

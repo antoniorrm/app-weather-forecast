@@ -49,9 +49,8 @@ const styles = StyleSheet.create({
 
 	searchBtn: {
 		height: 64,
-		paddingTop: Platform.OS === "ios" ? 22 : 0,
-		textAlign: "center",
-		textAlignVertical: "center",
+		justifyContent: "center",
+		alignItems: "center",
 		borderRadius: 12,
 		backgroundColor: theme.colors.white500 + "16",
 	},
