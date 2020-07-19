@@ -6,6 +6,7 @@ import {
 	TextInput,
 	TouchableOpacity,
 	ActivityIndicator,
+	ScrollView,
 } from "react-native";
 import { theme } from "../../theme";
 import { Feather as Icon } from "@expo/vector-icons";
@@ -14,6 +15,7 @@ import styles from "./styles";
 import * as Location from "expo-location";
 import api from "../../service/api";
 import CardMainStatus from "../../components/CardMainStatus";
+import CardDetail from "../../components/CardDetail";
 
 export interface Data {
 	city: String;
@@ -23,9 +25,17 @@ export interface Data {
 	temp_max: number;
 }
 
+interface Details {
+	wind: number;
+	visibility: number;
+	humidity: number;
+	clouds: number;
+}
+
 const Home = () => {
 	const [nameCity, setNameCity] = useState<string>("");
 	const [data, setData] = useState<Data>({} as Data);
+	const [details, setDetails] = useState<Details>({} as Details);
 	const [error, setError] = useState<Boolean>(false);
 	const [loading, setLoading] = useState<Boolean>(false);
 
@@ -54,6 +64,12 @@ const Home = () => {
 						temp_min: res.data.main.temp_min,
 						temp_max: res.data.main.temp_max,
 					});
+					setDetails({
+						wind: res.data.wind.speed,
+						visibility: res.data.visibility,
+						humidity: res.data.main.humidity,
+						clouds: res.data.clouds.all,
+					});
 					return setLoading(false);
 				});
 		};
@@ -75,6 +91,12 @@ const Home = () => {
 					temp: res.data.main.temp,
 					temp_min: res.data.main.temp_min,
 					temp_max: res.data.main.temp_max,
+				});
+				setDetails({
+					wind: res.data.wind.speed,
+					visibility: res.data.visibility,
+					humidity: res.data.main.humidity,
+					clouds: res.data.clouds.all,
 				});
 				setLoading(false);
 			})
@@ -119,6 +141,7 @@ const Home = () => {
 							style={styles.input}
 							onChangeText={(value) => setNameCity(value)}
 							value={nameCity}
+							onSubmitEditing={() => handleCity()}
 						/>
 					</View>
 
@@ -144,8 +167,45 @@ const Home = () => {
 				) : (
 					<CardMainStatus error={error} />
 				)}
-				<Text>Informações Adicionais</Text>
 			</View>
+			<View style={styles.body}>
+				<Text style={styles.info}>Informações Adicionais</Text>
+			</View>
+			<ScrollView
+				horizontal
+				showsHorizontalScrollIndicator={false}
+				contentContainerStyle={{
+					paddingHorizontal: 26,
+				}}
+			>
+				<CardDetail
+					nameIcon="droplet"
+					title="Umidade"
+					// description="Quantidade de água existente no ar"
+					value={`${details.humidity ? details.humidity : 0}%`}
+				/>
+
+				<CardDetail
+					nameIcon="wind"
+					title="Ventos"
+					// description="Velocidade relativa a intensidade do vento"
+					value={`${details.wind ? details.wind : 0} km/h`}
+				/>
+
+				<CardDetail
+					nameIcon="sun"
+					title="Visibilidade"
+					// description="É a distância máxima na qual um objeto pode ser visto"
+					value={`${details.visibility ? details.visibility : 0}km`}
+				/>
+
+				<CardDetail
+					nameIcon="cloud"
+					title="Nuvens"
+					// description="Parte do céu encoberto por uma camada de nuvens"
+					value={`${details.clouds ? details.clouds : 0}%`}
+				/>
+			</ScrollView>
 		</View>
 	);
 };

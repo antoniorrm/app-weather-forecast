@@ -9,7 +9,9 @@ const styles = StyleSheet.create({
 	},
 
 	body: {
-		margin: 24,
+		marginBottom: 24,
+		marginLeft: 24,
+		marginRight: 24,
 	},
 
 	cardHeader: {
@@ -54,12 +56,12 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		backgroundColor: theme.colors.white500 + "16",
 	},
-
-	title: {
+	info: {
 		textAlign: "center",
-		color: theme.colors.white500,
+		color: theme.colors.gray500,
 		fontFamily: theme.fontFamily.semiBold,
 		fontSize: theme.fontSize.h4,
+		marginBottom: 16,
 	},
 });
 

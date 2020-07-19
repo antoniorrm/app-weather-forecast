@@ -11,7 +11,7 @@ moment.locale("pt-br");
 interface Props {
 	data: Data;
 }
-console.log(new Date().getMonth().toString());
+
 const CardMain = (props: Props) => {
 	const { data } = props;
 	return (
