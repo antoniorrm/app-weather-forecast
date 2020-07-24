@@ -15,13 +15,13 @@
 
 ## 💻 Project
 
-This project ...
+This project was developed to practice and always develop with the best of UI / UX. It's an app, with clear design, weather for iOS and Android.
 
 >
 
 ## 🔖 Layout and Design
 
-To access the layout use [XD](https://xd.adobe.com/view/eadd0e9a-7d6d-4ea3-77c9-df3327e89be6-9cec/) made by <a href="https://www.linkedin.com/in/paulojanai/" style="color: #00a0df" target="_blank">Paulo Janai</a>.
+Prototype developed by <a href="https://www.linkedin.com/in/paulojanai/" style="color: #00a0df" target="_blank">Paulo Janai</a>. See a preview of the app [preview XD](https://xd.adobe.com/view/eadd0e9a-7d6d-4ea3-77c9-df3327e89be6-9cec/).
 
 #### Screens
 
@@ -40,6 +40,7 @@ This project was developed with the following technologies:
 - TypeScript
 - React
 - React Native
+  - Animated
 - Expo
 
 >
