@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import styles from "./styles";
 
-const search = require("../../../assets/no-maps-and-location.png");
-const errorIcon = require("../../../assets/maps-and-location.png");
+const search = require("../../../assets/search.png");
+const errorIcon = require("../../../assets/notfound.png");
 
 interface Props {
 	error: Boolean;

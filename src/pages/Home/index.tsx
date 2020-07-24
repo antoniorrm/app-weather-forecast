@@ -17,6 +17,8 @@ import api from "../../service/api";
 import CardMainStatus from "../../components/CardMainStatus";
 import CardDetail from "../../components/CardDetail";
 
+import NetInfo from "@react-native-community/netinfo";
+import Tag from "../../components/Tag";
 export interface Data {
 	city: String;
 	uf: String;
@@ -36,9 +38,18 @@ const Home = () => {
 	const [nameCity, setNameCity] = useState<string>("");
 	const [data, setData] = useState<Data>({} as Data);
 	const [details, setDetails] = useState<Details>({} as Details);
-	const [error, setError] = useState<Boolean>(false);
-	const [loading, setLoading] = useState<Boolean>(false);
+	const [error, setError] = useState<boolean>(false);
+	const [errorNet, setErrorNet] = useState<boolean>(true);
+	const [loading, setLoading] = useState<boolean>(false);
+	// Subscribe;
+	const unsubscribe = NetInfo.addEventListener((state) => {
+		if (errorNet !== state.isConnected) {
+			setErrorNet(state.isConnected);
+		}
+	});
 
+	// Unsubscribe
+	// unsubscribe();
 	useEffect(() => {
 		const loadPosition = async () => {
 			setLoading(true);
@@ -162,6 +173,7 @@ const Home = () => {
 			</View>
 
 			<View style={[styles.body, { marginTop: -132 }]}>
+				{!errorNet ? <CardMain data={data} /> : null}
 				{data.uf?.length > 0 ? (
 					<CardMain data={data} />
 				) : (
@@ -206,6 +218,9 @@ const Home = () => {
 					value={`${details.clouds ? details.clouds : 0}%`}
 				/>
 			</ScrollView>
+			<View style={styles.body}>
+				<Tag />
+			</View>
 		</View>
 	);
 };
