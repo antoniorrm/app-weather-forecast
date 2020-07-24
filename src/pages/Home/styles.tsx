@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 		height: 290,
 		padding: 24,
 		backgroundColor: theme.colors.orange500,
+		zIndex: 0,
 	},
 
 	header: {

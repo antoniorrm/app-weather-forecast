@@ -27,7 +27,7 @@ const CardMain = (props: Props) => {
 			</View>
 
 			<View style={[styles.inline, { justifyContent: "space-between" }]}>
-				<Text style={styles.tem}>{data.temp}°</Text>
+				<Text style={styles.tem}>{data.temp.toFixed()}°</Text>
 				<Image
 					style={{ width: 98, height: 100 }}
 					source={require("../../../assets/cloudy.png")}

@@ -171,7 +171,6 @@ const Home = () => {
 					</View>
 				</View>
 			</View>
-
 			<View style={[styles.body, { marginTop: -132 }]}>
 				{!errorNet ? <CardMain data={data} /> : null}
 				{data.uf?.length > 0 ? (
@@ -180,47 +179,49 @@ const Home = () => {
 					<CardMainStatus error={error} />
 				)}
 			</View>
-			<View style={styles.body}>
-				<Text style={styles.info}>Informações Adicionais</Text>
-			</View>
-			<ScrollView
-				horizontal
-				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={{
-					paddingHorizontal: 26,
-				}}
-			>
-				<CardDetail
-					nameIcon="droplet"
-					title="Umidade"
-					// description="Quantidade de água existente no ar"
-					value={`${details.humidity ? details.humidity : 0}%`}
-				/>
+			<ScrollView style={{ zIndex: 2 }} showsVerticalScrollIndicator={false}>
+				<View style={styles.body}>
+					<Text style={styles.info}>Informações Adicionais</Text>
+				</View>
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={{
+						paddingHorizontal: 26,
+					}}
+				>
+					<CardDetail
+						nameIcon="droplet"
+						title="Umidade"
+						// description="Quantidade de água existente no ar"
+						value={`${details.humidity ? details.humidity : 0}%`}
+					/>
 
-				<CardDetail
-					nameIcon="wind"
-					title="Ventos"
-					// description="Velocidade relativa a intensidade do vento"
-					value={`${details.wind ? details.wind : 0} km/h`}
-				/>
+					<CardDetail
+						nameIcon="wind"
+						title="Ventos"
+						// description="Velocidade relativa a intensidade do vento"
+						value={`${details.wind ? details.wind : 0} km/h`}
+					/>
 
-				<CardDetail
-					nameIcon="sun"
-					title="Visibilidade"
-					// description="É a distância máxima na qual um objeto pode ser visto"
-					value={`${details.visibility ? details.visibility : 0}km`}
-				/>
+					<CardDetail
+						nameIcon="sun"
+						title="Visibilidade"
+						// description="É a distância máxima na qual um objeto pode ser visto"
+						value={`${details.visibility ? details.visibility : 0}km`}
+					/>
 
-				<CardDetail
-					nameIcon="cloud"
-					title="Nuvens"
-					// description="Parte do céu encoberto por uma camada de nuvens"
-					value={`${details.clouds ? details.clouds : 0}%`}
-				/>
+					<CardDetail
+						nameIcon="cloud"
+						title="Nuvens"
+						// description="Parte do céu encoberto por uma camada de nuvens"
+						value={`${details.clouds ? details.clouds : 0}%`}
+					/>
+				</ScrollView>
+				<View style={[styles.body, { marginTop: 24 }]}>
+					<Tag />
+				</View>
 			</ScrollView>
-			<View style={styles.body}>
-				<Tag />
-			</View>
 		</View>
 	);
 };
